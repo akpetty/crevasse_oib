@@ -4,7 +4,7 @@ Airborne Topographic Mapper (ATM) laser altimetry data collected by NASA's Opera
 
 The procedure follows the analysis used to detect the morphology of sea ice features (e.g. pressure ridges) across the Arctic using OIB data (Petty et al., 2016) but applied to crevasses over specific glaciers in Greenland. Some important differences that need to be noted:
 
-1. For sea ice we assume a relative flat reference surface (sea level) over the 500 m - 1000 m segments we analyze, whereas for these glaciers the underlying reference surface can cary considerably. We thus experiment with fitting planes to the elevations (e.g. a quadratic plane) and assess heigh anomalies relative to this surface.
+1. For sea ice we assume a relative flat reference surface (sea level) over the 500 m - 1000 m segments we analyze, whereas for these glaciers the underlying reference surface can vary considerably. We thus experiment with fitting planes to the elevations (e.g. a quadratic plane) and assess heigh anomalies relative to this surface.
 
 2. Crevasse depths can be a lot bigger than pressure ridge heights!
 
@@ -15,9 +15,9 @@ The procedure follows the analysis used to detect the morphology of sea ice feat
 
 Note that individual script descriptions should be included at the top of each script.
 
-The 'calc' scripts are all used to process IceBridge ATM data into 'topography' datasets used by the 'plot' plotting scripts. 
+The plan is for this to all be in Python 3.7. The original code was in 2.7 so I still need to check this porting hasn't messed anything up.
 
-Python 3.7 was used for all processing.
+The 'calc' scripts are all used to process IceBridge ATM data into 'topography' datasets used by the 'plot' plotting scripts. 
 
 Provide some conda info
 
