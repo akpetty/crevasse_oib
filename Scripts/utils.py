@@ -98,6 +98,19 @@ def get_pos_poly(xp, yp, idx1, idx2):
 
 	return Path([x1y1, x2y2, x3y3, x4y4, x1y1], closed=True), [x1y1, x2y2, x3y3, x4y4, x1y1], [hypot1, hypot2, hypot3, hypot4]
 
+def get_atm_files(atm_path_date, year):
+	"""
+    Get list of ATM files available in a given year
+
+	returns:
+		list of files in the given date
+    """
+
+	if (year<=2012):
+		return glob(atm_path_date+'*.qi')
+	else:
+		return glob(atm_path_date+'*.h5')
+
 
 def get_atmqih5(atm_file, year, utc_time=1, pole_str='GR'):
 
