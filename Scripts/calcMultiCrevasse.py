@@ -77,7 +77,7 @@ def plotCrevasseSection(xatm_sect, yatm_sect, xx2d, yy2d, elevation_sect, elevat
 
 	ax3 = subplot(313)
 
-	ax3.annotate('(c) Features > '+str(min_ridge_height)+' m' , xy=(0.03, 1.03), textcoords='axes fraction', color='k', horizontalalignment='middle', verticalalignment='middle')
+	ax3.annotate('(c) Features > '+str(min_feature_depth)+' m' , xy=(0.03, 1.03), textcoords='axes fraction', color='k', horizontalalignment='middle', verticalalignment='middle')
 	
 	if (found_big_ridge==1):
 		minvalL = 0
@@ -131,6 +131,7 @@ def main(atmFile, date)
 	pint=5
 	min_depth = 0.5
 	xy_res=2
+	min_feature_depth=10
 	min_feature_size=100
 	along_track_res=500
 	pts_threshold=(along_track_res**2)/65
@@ -195,7 +196,7 @@ def main(atmFile, date)
 				elevation2d_plane = ut.getPlaneElev(elevation2d, xx2d, yy2d, order=2)
 
 				# Find local level (modal) surface
-				level_elev, thresh, levpercent = ut.calc_level_ice(asarray(elevation2d_plane[ma.nonzero(elevation2d_plane)]), pint, pwidth, min_ridge_height)
+				level_elev, thresh, levpercent = ut.calc_level_ice(asarray(elevation2d_plane[ma.nonzero(elevation2d_plane)]), pint, pwidth, min_feature_depth)
 				
 				# Elevation anomalies relative to a local level (modal) surface
 				elevation2d_anomalies=elevation2d_plane-level_elev
@@ -210,7 +211,7 @@ def main(atmFile, date)
 				if (feature_area>0):
 					found_features=1
 					
-					labelled_image  = ut.label_features(elevation2d_masked, xy_res, min_ridge_size, min_ridge_height)
+					labelled_image  = ut.label_features(elevation2d_masked, xy_res, min_feature_size, min_feature_depth)
 
 					# Big feature is one that has an area after labelling above the minimum area threshold
 					found_big_feature=0
@@ -236,11 +237,6 @@ def main(atmFile, date)
 
 	feature_statsAll.dump(outpath+str(date)+'/feature_stats_'+str(int(along_track_res/1000))+'km_xyres'+str(xy_res)+'m_'+str(int(min_feature_height*100))+'cm_poly'+str(atm_path_date[-9:-1])+'_f'+str(atm_file).zfill(3)+'.txt')
 	
-	#CAN OUTPUT AS TEXT FILES INSTEAD - BIGGER BUT CAN OPEN RAW
-	#savetxt(outpath+str(year)+'/ridge_stats_'+str(int(along_track_res/1000))+'km_xyres'+str(xy_res)+'m_'+str(int(min_ridge_height*100))+'cm_poly'+str(atm_path_date[-9:-1])+'_f'+str(atm_file)+'.txt', ridge_statsALL)
-	#savetxt(outpath+str(year)+'/cov_matrix_'+str(int(along_track_res/1000))+'km_xyres'+str(xy_res)+'m_'+str(int(min_ridge_height*100))+'cm_poly'+str(atm_path_date[-9:-1])+'_f'+str(atm_file)+'.txt', covarALL)
-	#
-
 
 if __name__ == '__main__':
 

@@ -94,7 +94,7 @@ elevation2d = ut.grid_elevation(xpts, ypts,elevation, xx2d, yy2d,kdtree=1)
 elevation2d_plane = ut.getPlaneElev(elevation2d, xx2d, yy2d, order=2)
 
 # Find local level (modal) surface
-level_elev, thresh, levpercent = ut.calc_level_ice(asarray(elevation2d_plane[ma.nonzero(elevation2d_plane)]), pint, pwidth, min_ridge_height)
+level_elev, thresh, levpercent = ut.calc_level_ice(asarray(elevation2d_plane[ma.nonzero(elevation2d_plane)]), pint, pwidth, min_feature_depth)
 
 # Elevation anomalies relative to a local level (modal) surface
 elevation2d_anomalies=elevation2d_plane-level_elev
@@ -106,7 +106,7 @@ feature_area = ma.count(elevation2d_masked)
 
 #================ Label the features ==================
 
-labelled_image  = ut.label_features(elevation2d_masked, xy_res, min_ridge_size, min_ridge_height)
+labelled_image  = ut.label_features(elevation2d_masked, xy_res, min_feature_size, min_feature_depth)
 found_feature = 0
 if (np.amax(labelled_image)>0):
 	found_big_feature=1

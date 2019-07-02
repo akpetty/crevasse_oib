@@ -346,6 +346,27 @@ def grid_elevation(xS, yS,elevationS, xx2d, yy2d, kdtree=0):
 
 	return elevation2d_ma
 
+def kdtree_clean(xx2d, yy2d, xS, yS, elevation2d):
+	"""
+    Remove bad data from the regridding using a kdtree
+	
+	dist is how far away the nearest neighbours are (default 4 m). 
+    
+    cleaned up gridded elevation data
+
+    """
+
+    # REMOVE DODGY ADDED DATA FROM THE REGRIDDING BASED ON KDTREE. 
+	
+	# need to decide on this threshold.
+	# ONLY DO THIS FOR POINTS THAT HAVE ALREADY BEEN CLASSIFIED AS RIDGES
+	grid_points = np.c_[xx2d.ravel(), yy2d.ravel()]
+	tree = KDTree(np.c_[xS, yS])
+	dist, _ = tree.query(grid_points, k=1)
+	dist = dist.reshape(xx2d.shape)
+	elevation2d_KD=ma.masked_where(dist > 4, elevation2d)
+	return elevation2d_KD
+
 def grid_atm(xS, yS, xy_res):
 	xxS = np.arange(np.amin(xS),np.amax(xS), xy_res)
 	yyS = np.arange(np.amin(yS),np.amax(yS), xy_res)
@@ -434,7 +455,7 @@ def calc_level_ice(elevationS, pint, pwidth, min_depth, lev_bounds=0):
 	level_elevl = np.percentile(elevationS, (pint*min_index))
 	level_elevu = np.percentile(elevationS, (pint*min_index)+pwidth)
 	print 'Level ice elevation:', level_elev
-	thresh = level_elev+min_ridge_height
+	thresh = level_elev+min_depth
 	if (lev_bounds==1):
 		return level_elev, level_elevl, level_elevu, min_index, thresh
 	else:
